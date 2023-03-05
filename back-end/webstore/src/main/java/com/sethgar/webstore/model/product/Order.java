@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.sethgar.webstore.model.user.Customer;
 import com.sethgar.webstore.model.user.DeliveryMan;
+import com.sethgar.webstore.model.user.Supplier;
+import com.sethgar.webstore.utils.enums.OrderStatusEnum;
 import com.sethgar.webstore.utils.enums.PaymentMethodEnum;
 
 import jakarta.persistence.Column;
@@ -47,6 +49,9 @@ public class Order {
     @Column(nullable =  false)
     private double totalValue;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrderStatusEnum status;
     
     @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
@@ -57,8 +62,11 @@ public class Order {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "order", orphanRemoval = true)
     private List<ProductInOrderDetail> products;
 
-    //-------------------------Getters and Setters-------------------------//
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Supplier supplier;
 
+    //-------------------------Getters and Setters-------------------------//
+    
     public long getId() {
         return id;
     }
@@ -121,6 +129,30 @@ public class Order {
 
     public void setDeliveryMan(DeliveryMan deliveryMan) {
         this.deliveryMan = deliveryMan;
+    }
+
+    public OrderStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatusEnum status) {
+        this.status = status;
+    }
+
+    public List<ProductInOrderDetail> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductInOrderDetail> products) {
+        this.products = products;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
     
